@@ -1,12 +1,22 @@
+import { Provider } from "react-redux";
 import React from "react";
-import Game from "./components/Game.js";
 
-function App() {
+import Home from "./pages/Home";
+import styled from "styled-components";
+
+const App = ({ store }) => {
   return (
-    <div className="App">
-      <Game />
-    </div>
+    <StyledApp>
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    </StyledApp>
   );
-}
+};
 
 export default App;
+
+const StyledApp = styled.div`
+  display: flex;
+  justify-content: center;
+`;

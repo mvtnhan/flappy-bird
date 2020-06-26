@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import styled from "styled-components";
+import ForeGround from "./ForeGround";
 
 import { actionType } from "../action";
 import { gameStatus, pipeInfo, keyCode, screen } from "../constant";
@@ -9,7 +10,6 @@ import Bird from "../bird/Bird";
 import Pipe from "../pipe/Pipe";
 
 import ImgBg from "../images/bg.png";
-import ImgForeBg from "../images/fg.png";
 
 let birdIntervalID;
 let pipeGeneratorIntervalID;
@@ -36,7 +36,7 @@ class Game extends Component {
       <StyledGame>
         <Bird />
         <Pipe />
-        <StyledForeGround />
+        <ForeGround />
       </StyledGame>
     );
   }
@@ -125,12 +125,4 @@ const StyledGame = styled.div`
   height: ${`${screen.HEIGHT}px`};
   background: url(${ImgBg});
   overflow: hidden;
-`;
-
-const StyledForeGround = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: ${`${screen.WIDTH}px`};
-  height: ${`${screen.GROUND_HEIGHT}px`};
-  background: url(${ImgForeBg});
 `;

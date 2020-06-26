@@ -8,6 +8,9 @@ const initialState = {
 export default (state = initialState, { type } = {}) => {
   switch (type) {
     case actionType.PIPE_MOVING:
+      if (!state.topPipes.length) {
+        return state;
+      }
       return { ...state, leftPadding: state.leftPadding - 10 };
 
     case actionType.PIPE_GENERATE:

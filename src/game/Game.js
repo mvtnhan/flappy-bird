@@ -2,16 +2,24 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import styled from "styled-components";
-import ForeGround from "./ForeGround";
 
 import { actionType } from "../action";
-import { gameStatus, pipeInfo, keyCode, screen } from "../constant";
+import {
+  gameStatus,
+  pipeInfo,
+  keyCode,
+  screen,
+  interval,
+  birdInfo,
+} from "../constant";
 import Bird from "../bird/Bird";
+import ForeGround from "./ForeGround";
 import Pipe from "../pipe/Pipe";
 
 import ImgBg from "../images/bg.png";
 
 let birdIntervalID;
+let pipeMoveIntervalID;
 let pipeGeneratorIntervalID;
 
 class Game extends Component {
@@ -55,13 +63,17 @@ const start = () => {
     if (status !== gameStatus.PLAYING) {
       birdIntervalID = setInterval(() => {
         dispatch({ type: actionType.BIRD_FALL });
-        dispatch({ type: actionType.PIPE_MOVING });
         check(dispatch, getState);
-      }, 300);
+      }, interval.BIRD_FALL);
+
+      pipeMoveIntervalID = setInterval(() => {
+        dispatch({ type: actionType.PIPE_MOVE });
+        check(dispatch, getState);
+      }, interval.PIPE_MOVE);
 
       pipeGeneratorIntervalID = setInterval(() => {
         dispatch({ type: actionType.PIPE_GENERATE });
-      }, 3000);
+      }, interval.PIPE_GENEGRATE);
 
       dispatch({ type: actionType.GAME_START });
     }
@@ -73,11 +85,14 @@ const check = (dispatch, getState) => {
 
   if (game.status === gameStatus.GAME_OVER) {
     clearInterval(birdIntervalID);
+    clearInterval(pipeMoveIntervalID);
     clearInterval(pipeGeneratorIntervalID);
   }
 
   const pipePosition = pipe.topPipes
     .map(({ topPipeHeight }, index) => {
+      // x1, y1: bottom left point of top pipe
+      // x2, y2: top right point of bottom pipe
       return {
         x1: pipe.leftPadding + index * pipeInfo.HORIZONTAL_DISTANCE,
         y1: topPipeHeight,
@@ -87,15 +102,21 @@ const check = (dispatch, getState) => {
     })
     .filter(({ x1 }) => x1 > 0 && x1 < screen.WIDTH);
 
+  // if the bird touches the ground
   if (bird.top > screen.HEIGHT - screen.GROUND_HEIGHT) {
     dispatch({ type: actionType.GAME_OVER });
   }
 
   if (pipePosition.length) {
     const { x1, y1, x2, y2 } = pipePosition[0];
+    // if the bird touches the pipes
     if (
-      (x1 < 155 && 120 < x1 + 52 && bird.top < y1) ||
-      (x2 < 155 && 120 < x2 + 52 && bird.top > y2)
+      (x1 < birdInfo.LEFT + 19 &&
+        birdInfo.LEFT + 19 < x1 + pipeInfo.WIDTH &&
+        bird.top + 13 < y1) ||
+      (x2 < birdInfo.LEFT + 19 &&
+        birdInfo.LEFT + 19 < x2 + pipeInfo.WIDTH &&
+        bird.top + 13 > y2)
     ) {
       dispatch({ type: actionType.GAME_OVER });
     }

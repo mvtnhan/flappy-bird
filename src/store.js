@@ -1,5 +1,4 @@
-import { combineReducers } from "redux";
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, combineReducers, compose } from "redux";
 import thunk from "redux-thunk";
 
 import birdReducer from "./bird/reducer";
@@ -12,6 +11,8 @@ const rootReducer = combineReducers({
   pipe: pipeReducer,
 });
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 export default () => {
-  return createStore(rootReducer, applyMiddleware(thunk));
+  return createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 };

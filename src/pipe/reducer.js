@@ -1,13 +1,14 @@
 import { actionType } from "../action";
+import { pipeInfo } from "../constant";
 
 const initialState = {
-  leftPadding: 300,
+  leftPadding: pipeInfo.LEFT,
   topPipes: [],
 };
 
 export default (state = initialState, { type } = {}) => {
   switch (type) {
-    case actionType.PIPE_MOVING:
+    case actionType.PIPE_MOVE:
       if (!state.topPipes.length) {
         return state;
       }

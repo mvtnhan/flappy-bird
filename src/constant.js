@@ -18,3 +18,7 @@ export const screen = {
   HEIGHT: 512,
   GROUND_HEIGHT: 108,
 };
+
+export const bird = {
+  RIGHT: 155,
+};

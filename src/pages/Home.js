@@ -94,12 +94,24 @@ const check = (dispatch, getState) => {
   if (pipePosition.length) {
     const { x1, y1, x2, y2 } = pipePosition[0];
     if (
-      (x1 < 152 && 120 < x1 + 52 && bird.top < y1) ||
-      (x2 < 152 && 120 < x2 + 52 && bird.top > y2)
+      (x1 < 155 && 120 < x1 + 52 && bird.top < y1) ||
+      (x2 < 155 && 120 < x2 + 52 && bird.top > y2)
     ) {
       dispatch({ type: actionType.GAME_OVER });
     }
   }
+
+  console.log(
+    "count",
+    pipe.topPipes.map(({ topPipeHeight }, index) => {
+      return {
+        x1: pipe.leftPadding + index * pipeInfo.HORIZONTAL_DISTANCE,
+        y1: topPipeHeight,
+        x2: pipe.leftPadding + index * pipeInfo.HORIZONTAL_DISTANCE,
+        y2: topPipeHeight + pipeInfo.VERTICAL_DISTANCE,
+      };
+    }).length
+  );
 };
 
 const mapStateToProps = ({ game }) => ({ status: game.status });

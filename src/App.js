@@ -1,12 +1,14 @@
+import { Provider } from "react-redux";
 import React from "react";
-import Game from "./components/Game.js";
 
-function App() {
+import Home from "./pages/Home";
+
+const App = ({ store }) => {
   return (
-    <div className="App">
-      <Game />
-    </div>
+    <Provider store={store}>
+      <Home />
+    </Provider>
   );
-}
+};
 
 export default App;

@@ -1,18 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
+import React from "react";
+import ReactDOM from "react-dom";
+
+import * as serviceWorker from "./serviceWorker";
+import App from "./App";
+import configureStore from "./store";
 
 const GlobalStyle = createGlobalStyle`
 ${normalize}
 `;
 
+const store = configureStore();
+
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyle />
-    <App />
+    <App store={store} />
   </React.StrictMode>,
   document.getElementById("root")
 );

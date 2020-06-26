@@ -5,8 +5,8 @@ import styled from "styled-components";
 
 import { actionType } from "../action";
 import { gameStatus, pipeInfo, keyCode, screen } from "../constant";
-import Bird from "../components/Bird";
-import Pipe from "../components/Pipe";
+import Bird from "../bird/Bird";
+import Pipe from "../pipe/Pipe";
 
 import ImgBg from "../images/bg.png";
 import ImgForeBg from "../images/fg.png";
@@ -100,18 +100,6 @@ const check = (dispatch, getState) => {
       dispatch({ type: actionType.GAME_OVER });
     }
   }
-
-  console.log(
-    "count",
-    pipe.topPipes.map(({ topPipeHeight }, index) => {
-      return {
-        x1: pipe.leftPadding + index * pipeInfo.HORIZONTAL_DISTANCE,
-        y1: topPipeHeight,
-        x2: pipe.leftPadding + index * pipeInfo.HORIZONTAL_DISTANCE,
-        y2: topPipeHeight + pipeInfo.VERTICAL_DISTANCE,
-      };
-    }).length
-  );
 };
 
 const mapStateToProps = ({ game }) => ({ status: game.status });

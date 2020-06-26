@@ -1,14 +1,14 @@
 import { Provider } from "react-redux";
 import React from "react";
 
-import Home from "./pages/Home";
+import Game from "./game/Game";
 import styled from "styled-components";
 
 const App = ({ store }) => {
   return (
     <StyledApp>
       <Provider store={store}>
-        <Home />
+        <Game />
       </Provider>
     </StyledApp>
   );
